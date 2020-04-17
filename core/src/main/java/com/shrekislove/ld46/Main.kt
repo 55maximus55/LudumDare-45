@@ -10,7 +10,6 @@ import com.shrekislove.ld46.console.GameConsole
 import com.shrekislove.ld46.screens.GameScreen
 import com.shrekislove.ld46.screens.LibScreen
 
-/** [com.badlogic.gdx.ApplicationListener] implementation shared by all platforms.  */
 class Main : KtxGame<LibScreen>() {
 
     companion object {

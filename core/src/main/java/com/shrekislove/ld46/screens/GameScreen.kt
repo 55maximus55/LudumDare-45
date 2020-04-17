@@ -21,10 +21,10 @@ import com.shrekislove.ld46.ecs.systems.Box2dTopdownPlayerMovementSystem
 import com.shrekislove.ld46.ecs.systems.Box2dTopdownUpdateSpritePositionsSystem
 import com.shrekislove.ld46.ecs.systems.Box2dWorldStepSystem
 import com.shrekislove.ld46.ecs.systems.RenderSystem
+import com.shrekislove.ld46.utils.Box2dWallsFromTiledMapCreator
 import ktx.app.use
 import ktx.box2d.body
 
-/** First screen of the application. Displayed after the application is created.  */
 class GameScreen : LibScreen() {
 
     val camera = OrthographicCamera().apply {
@@ -40,25 +40,29 @@ class GameScreen : LibScreen() {
 
     val world = World(Vector2(), true)
 
-    val playerEntity = Entity().apply {
-        add(SpriteComponent(Sprite(Texture("sprites/player.png"))))
-        add(Box2dBodyComponent(world.body {
-            type = BodyDef.BodyType.DynamicBody
-            circle(radius = 0.4f) {}
-        }))
-        add(Box2dTopdownPlayerControllerComponent())
-        add(SpeedComponent(4f))
-    }
-
     init {
         ecsEngine.apply {
-            addEntity(playerEntity)
-
             addSystem(Box2dTopdownPlayerMovementSystem())
             addSystem(Box2dWorldStepSystem(world, 10, 10))
             addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
             addSystem(RenderSystem(camera, map, world, PPM))
         }
+    }
+
+    override fun show() {
+        ecsEngine.apply {
+            // player entity
+            addEntity(Entity().apply {
+                add(SpriteComponent(Sprite(Texture("sprites/player.png"))))
+                add(Box2dBodyComponent(world.body {
+                    type = BodyDef.BodyType.DynamicBody
+                    circle(radius = 0.4f) {}
+                }))
+                add(Box2dTopdownPlayerControllerComponent())
+                add(SpeedComponent(4f))
+            })
+        }
+        Box2dWallsFromTiledMapCreator().createWalls(world, PPM, map)
     }
 
     override fun resize(width: Int, height: Int) {

@@ -29,7 +29,6 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
     }
 
     override fun update(deltaTime: Float) {
-
         mapRenderer.apply {
             setView(camera)
             render()
@@ -56,9 +55,6 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
                 position.y *= PPM
                 update()
             }
-        }
-        for (i in entities) {
-
         }
     }
 
