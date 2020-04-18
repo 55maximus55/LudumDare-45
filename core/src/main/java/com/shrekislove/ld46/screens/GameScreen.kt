@@ -74,6 +74,7 @@ class GameScreen : LibScreen() {
                 addSystem(Box2dTopdownPlayerMovementSystem())
                 addSystem(Box2dFootersControlSystem())
                 addSystem(FooterUpdateSpriteSystem())
+                addSystem(PlayerSpriteUpdateSystem())
                 addSystem(Box2dTeleportSystem())
 
                 addSystem(RayHandlerPlayerFlashLightSystem())
