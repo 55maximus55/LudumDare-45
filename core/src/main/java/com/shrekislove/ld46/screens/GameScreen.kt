@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.systems.*
 import com.shrekislove.ld46.ecs.systems.box2d.*
+import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerCarFlashLightUpdateSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerPlayerFlashLightSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateBodyPositionsSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateLightPositionsSystem
@@ -72,12 +73,16 @@ class GameScreen : LibScreen() {
             ecsEngine.apply {
                 addSystem(Box2dTopdownPlayerMovementSystem())
                 addSystem(Box2dFootersControlSystem())
+                addSystem(FooterUpdateSpriteSystem())
                 addSystem(Box2dTeleportSystem())
+
+                addSystem(RayHandlerPlayerFlashLightSystem())
+                addSystem(RayHandlerCarFlashLightUpdateSystem())
+
                 addSystem(Box2dWorldStepSystem(world, 10, 10))
 
                 addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))
                 addSystem(RayHandlerUpdateLightPositionsSystem())
-                addSystem(RayHandlerPlayerFlashLightSystem())
 
                 addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
                 addSystem(UpdateCameraPositionSystem(camera, PPM))

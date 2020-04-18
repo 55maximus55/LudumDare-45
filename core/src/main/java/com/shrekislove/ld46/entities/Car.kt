@@ -1,5 +1,6 @@
 package com.shrekislove.ld46.entities
 
+import box2dLight.ConeLight
 import box2dLight.PointLight
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Entity
@@ -14,6 +15,7 @@ import com.shrekislove.ld46.ecs.components.SpriteComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dFootersControlComponent
 import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerBodyComponent
+import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerFlashLightComponent
 import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerLightComponent
 import com.shrekislove.ld46.utils.Box2dBodyData
 import ktx.box2d.body
@@ -43,6 +45,7 @@ class Car {
                 circle(radius = 0.4f * PPM) {}
             }))
             add(RayHandlerLightComponent(PointLight(rayHandler, 100, Color.BLACK, 1f * PPM, 32f, 32f)))
+            add(RayHandlerFlashLightComponent(ConeLight(rayHandler, 100, Color.BLACK, 9f * PPM, 0f, 0f, 0f, 30f)))
         }
         return e
     }
