@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="24">
  <tileset firstgid="1" source="home tileset.tsx"/>
  <layer id="3" name="floor" width="100" height="100">
   <data encoding="csv">
@@ -237,6 +237,9 @@
  </objectgroup>
  <objectgroup id="6" name="triggers">
   <object id="21" name="check_fridge" x="352" y="1984" width="8" height="32"/>
-  <object id="22" name="go_from_floor" x="320" y="2224" width="32" height="8"/>
+  <object id="22" name="teleport1" x="320" y="2224" width="32" height="8"/>
+ </objectgroup>
+ <objectgroup id="8" name="teleport1">
+  <object id="23" name="teleport1" x="632" y="1944" width="8" height="8"/>
  </objectgroup>
 </map>

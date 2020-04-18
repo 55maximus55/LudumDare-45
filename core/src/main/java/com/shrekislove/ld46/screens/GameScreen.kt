@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.systems.*
+import com.shrekislove.ld46.ecs.systems.box2d.Box2dTeleportSystem
 import com.shrekislove.ld46.ecs.systems.box2d.Box2dTopdownPlayerMovementSystem
 import com.shrekislove.ld46.ecs.systems.box2d.Box2dTopdownUpdateSpritePositionsSystem
 import com.shrekislove.ld46.ecs.systems.box2d.Box2dWorldStepSystem
@@ -57,7 +58,7 @@ class GameScreen : LibScreen() {
     override fun show() {
         if (isNewGame) {
             world = World(Vector2(), true).apply {
-                setContactListener(Box2dContactListener())
+                setContactListener(Box2dContactListener(map, PPM))
             }
             lightWorld = World(Vector2(), true)
             rayHandler = RayHandler(lightWorld).apply {
@@ -70,6 +71,7 @@ class GameScreen : LibScreen() {
 
             ecsEngine.apply {
                 addSystem(Box2dTopdownPlayerMovementSystem())
+                addSystem(Box2dTeleportSystem())
                 addSystem(Box2dWorldStepSystem(world, 10, 10))
 
                 addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))

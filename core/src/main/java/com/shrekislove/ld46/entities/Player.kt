@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.shrekislove.ld46.ecs.components.*
 import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
+import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTopdownPlayerControllerComponent
 import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerLightComponent
 import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerBodyComponent
@@ -37,6 +38,7 @@ class Player {
             }))
             add(Box2dTopdownPlayerControllerComponent())
             add(SpeedComponent(4f))
+            add(Box2dTeleportComponent())
 
             add(RayHandlerBodyComponent(lightWorld.body {
                 type = BodyDef.BodyType.DynamicBody

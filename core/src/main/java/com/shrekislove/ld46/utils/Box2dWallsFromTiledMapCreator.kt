@@ -43,7 +43,7 @@ class Box2dWallsFromTiledMapCreator {
 
                 }
                 userData = Box2dBodyData().apply {
-                    collision = true
+                    collision = false
                     tag = "trigger"
                     data = i.name as Object
                 }
