@@ -10,13 +10,12 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.systems.*
-import com.shrekislove.ld46.ecs.systems.box2d.Box2dTeleportSystem
-import com.shrekislove.ld46.ecs.systems.box2d.Box2dTopdownPlayerMovementSystem
-import com.shrekislove.ld46.ecs.systems.box2d.Box2dTopdownUpdateSpritePositionsSystem
-import com.shrekislove.ld46.ecs.systems.box2d.Box2dWorldStepSystem
+import com.shrekislove.ld46.ecs.systems.box2d.*
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerPlayerFlashLightSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateBodyPositionsSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateLightPositionsSystem
+import com.shrekislove.ld46.entities.Car
+import com.shrekislove.ld46.entities.Footer
 import com.shrekislove.ld46.entities.Player
 import com.shrekislove.ld46.utils.Box2dContactListener
 import com.shrekislove.ld46.utils.Box2dWallsFromTiledMapCreator
@@ -69,8 +68,10 @@ class GameScreen : LibScreen() {
                 setGammaCorrection(true)
             }
 
+            // systems
             ecsEngine.apply {
                 addSystem(Box2dTopdownPlayerMovementSystem())
+                addSystem(Box2dFootersControlSystem())
                 addSystem(Box2dTeleportSystem())
                 addSystem(Box2dWorldStepSystem(world, 10, 10))
 
@@ -82,7 +83,7 @@ class GameScreen : LibScreen() {
                 addSystem(UpdateCameraPositionSystem(camera, PPM))
                 addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
             }
-
+            // entities
             ecsEngine.apply {
                 val playerStartPos = ObjectFromTiledMapGetter().getPosition(map, "player")
                 addEntity(Player().create(playerStartPos.cpy().scl(1f / PPM), world, lightWorld, rayHandler, PPM))
@@ -90,6 +91,20 @@ class GameScreen : LibScreen() {
                     x = playerStartPos.x
                     y = playerStartPos.y
                 }
+
+                val footer1Positions = ObjectFromTiledMapGetter().getPositions(map, "footer1").apply {
+                    for (i in iterator()) {
+                        i.scl(1f / PPM)
+                    }
+                }
+                addEntity(Footer().create(footer1Positions, world, lightWorld, rayHandler, PPM))
+
+                val car1Positions = ObjectFromTiledMapGetter().getPositions(map, "car1").apply {
+                    for (i in iterator()) {
+                        i.scl(1f / PPM)
+                    }
+                }
+                addEntity(Car().create(car1Positions, world, lightWorld, rayHandler, PPM))
             }
             Box2dWallsFromTiledMapCreator().apply {
                 createWalls(world, PPM, map, "walls")

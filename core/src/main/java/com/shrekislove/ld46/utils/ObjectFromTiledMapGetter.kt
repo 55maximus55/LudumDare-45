@@ -14,4 +14,13 @@ class ObjectFromTiledMapGetter {
         return Vector2()
     }
 
+    fun getPositions(map: TiledMap, objectName: String): ArrayList<Vector2> {
+        val list = ArrayList<Vector2>()
+        for (i in map.layers[objectName].objects.getByType(RectangleMapObject::class.java)) {
+            val rect = i.rectangle
+            list.add(Vector2(rect.getX(), rect.getY()))
+        }
+        return list
+    }
+
 }
