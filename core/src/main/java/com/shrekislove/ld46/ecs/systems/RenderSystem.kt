@@ -34,6 +34,7 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
             setView(camera)
             batch.use {
                 renderTileLayer(map.layers["floor"] as TiledMapTileLayer?)
+                renderTileLayer(map.layers["wall"] as TiledMapTileLayer?)
                 renderTileLayer(map.layers["objects"] as TiledMapTileLayer?)
             }
         }
@@ -54,6 +55,7 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
             mapRenderer.apply {
                 batch.use {
                     renderTileLayer(map.layers["wall_hidden1"] as TiledMapTileLayer?)
+                    renderTileLayer(map.layers["wall_hidden2"] as TiledMapTileLayer?)
                 }
             }
         }
