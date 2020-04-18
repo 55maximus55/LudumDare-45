@@ -62,7 +62,7 @@ class GameScreen : LibScreen() {
             }
             lightWorld = World(Vector2(), true)
             rayHandler = RayHandler(lightWorld).apply {
-                setAmbientLight(0.2f)
+                setAmbientLight(0.4f)
                 setBlur(true)
                 setBlurNum(1)
                 setCulling(true)

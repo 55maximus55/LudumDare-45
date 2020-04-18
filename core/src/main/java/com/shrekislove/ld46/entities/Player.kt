@@ -37,7 +37,7 @@ class Player {
                 }
             }))
             add(Box2dTopdownPlayerControllerComponent())
-            add(SpeedComponent(4f))
+            add(SpeedComponent(5f))
             add(Box2dTeleportComponent())
 
             add(RayHandlerBodyComponent(lightWorld.body {

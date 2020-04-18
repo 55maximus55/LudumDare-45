@@ -6,6 +6,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
@@ -18,9 +19,9 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
     private lateinit var entities: ImmutableArray<Entity>
     private val spriteMapper = ComponentMapper.getFor(SpriteComponent::class.java)
 
-    val mapRenderer = OrthogonalTiledMapRenderer(map)
-    val box2DDebugRenderer = Box2DDebugRenderer()
     val batch = Main.context.inject<Batch>()
+    val mapRenderer = OrthogonalTiledMapRenderer(map, batch)
+    val box2DDebugRenderer = Box2DDebugRenderer()
 
     override fun addedToEngine(engine: Engine?) {
         if (engine != null) {
@@ -31,7 +32,10 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
     override fun update(deltaTime: Float) {
         mapRenderer.apply {
             setView(camera)
-            render()
+            batch.use {
+                renderTileLayer(map.layers["floor"] as TiledMapTileLayer?)
+                renderTileLayer(map.layers["objects"] as TiledMapTileLayer?)
+            }
         }
         // draw sprites
         apply {
@@ -45,6 +49,15 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
                 }
             }
         }
+        // draw walls
+        apply {
+            mapRenderer.apply {
+                batch.use {
+                    renderTileLayer(map.layers["wall_hidden1"] as TiledMapTileLayer?)
+                }
+            }
+        }
+
         apply {
             rayHandler.apply {
                 setCombinedMatrix(camera)

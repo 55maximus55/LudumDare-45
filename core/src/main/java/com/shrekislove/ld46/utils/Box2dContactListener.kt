@@ -11,9 +11,61 @@ import ktx.math.div
 
 class Box2dContactListener(val map: TiledMap, val PPM: Float) : ContactListener {
 
-    override fun beginContact(contact: Contact?) {}
+    override fun beginContact(contact: Contact?) {
+        val bodyA = contact!!.fixtureA.body
+        val bodyB = contact!!.fixtureB.body
 
-    override fun endContact(contact: Contact?) {}
+        if (!(bodyA.userData as Box2dBodyData).collision || !(bodyB.userData as Box2dBodyData).collision) {
+            contact.isEnabled = false
+        }
+
+        if ((bodyA.userData as Box2dBodyData).tag == "trigger" || (bodyB.userData as Box2dBodyData).tag == "trigger") {
+            if ((bodyA.userData as Box2dBodyData).tag == "player" || (bodyB.userData as Box2dBodyData).tag == "player") {
+                val triggerName: String
+                val entityPlayer: Entity = if ((bodyA.userData as Box2dBodyData).tag == "player") {
+                    triggerName = (bodyB.userData as Box2dBodyData).data as String
+                    (bodyA.userData as Box2dBodyData).entity
+                } else {
+                    triggerName = (bodyA.userData as Box2dBodyData).data as String
+                    (bodyB.userData as Box2dBodyData).entity
+                }
+
+                when {
+                    triggerName.contains("wall_hidden") -> {
+                        map.layers[triggerName].opacity = 0.3f
+                    }
+                }
+            }
+        }
+    }
+
+    override fun endContact(contact: Contact?) {
+        val bodyA = contact!!.fixtureA.body
+        val bodyB = contact!!.fixtureB.body
+
+        if (!(bodyA.userData as Box2dBodyData).collision || !(bodyB.userData as Box2dBodyData).collision) {
+            contact.isEnabled = false
+        }
+
+        if ((bodyA.userData as Box2dBodyData).tag == "trigger" || (bodyB.userData as Box2dBodyData).tag == "trigger") {
+            if ((bodyA.userData as Box2dBodyData).tag == "player" || (bodyB.userData as Box2dBodyData).tag == "player") {
+                val triggerName: String
+                val entityPlayer: Entity = if ((bodyA.userData as Box2dBodyData).tag == "player") {
+                    triggerName = (bodyB.userData as Box2dBodyData).data as String
+                    (bodyA.userData as Box2dBodyData).entity
+                } else {
+                    triggerName = (bodyA.userData as Box2dBodyData).data as String
+                    (bodyB.userData as Box2dBodyData).entity
+                }
+
+                when {
+                    triggerName.contains("wall_hidden") -> {
+                        map.layers[triggerName].opacity = 1f
+                    }
+                }
+            }
+        }
+    }
 
     override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
         val bodyA = contact!!.fixtureA.body
