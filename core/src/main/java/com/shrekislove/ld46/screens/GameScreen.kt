@@ -15,6 +15,7 @@ import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerPlayerFlashLightSys
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateBodyPositionsSystem
 import com.shrekislove.ld46.ecs.systems.rayhandler.RayHandlerUpdateLightPositionsSystem
 import com.shrekislove.ld46.entities.Player
+import com.shrekislove.ld46.utils.Box2dContactListener
 import com.shrekislove.ld46.utils.Box2dWallsFromTiledMapCreator
 import com.shrekislove.ld46.utils.ObjectFromTiledMapGetter
 
@@ -31,7 +32,9 @@ class GameScreen : LibScreen() {
     val map = TmxMapLoader().load("maps/home.tmx")
     val PPM = 32f
 
-    val world = World(Vector2(), true)
+    val world = World(Vector2(), true).apply {
+        setContactListener(Box2dContactListener())
+    }
     val lightWorld = World(Vector2(), true)
     val rayHandler = RayHandler(lightWorld).apply {
         setAmbientLight(0.2f)
@@ -65,8 +68,11 @@ class GameScreen : LibScreen() {
                 y = playerStartPos.y
             }
         }
-        Box2dWallsFromTiledMapCreator().createWalls(world, PPM, map, "walls")
-        Box2dWallsFromTiledMapCreator().createWalls(lightWorld, 1f, map, "lightwalls")
+        Box2dWallsFromTiledMapCreator().apply {
+            createWalls(world, PPM, map, "walls")
+            createWalls(lightWorld, 1f, map, "lightwalls")
+            createTriggers(world, PPM, map)
+        }
     }
 
     override fun hide() {
@@ -78,7 +84,7 @@ class GameScreen : LibScreen() {
             viewportHeight = fov
             update()
         }
-        rayHandler.resizeFBO(width, height)
+        rayHandler.resizeFBO(width / 4, height / 4)
     }
 
 }

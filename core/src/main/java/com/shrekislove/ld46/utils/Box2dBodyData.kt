@@ -6,6 +6,7 @@ class Box2dBodyData {
 
     var collision = true
     var tag = ""
+    var data = Object()
     lateinit var entity: Entity
 
 }

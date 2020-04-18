@@ -29,4 +29,26 @@ class Box2dWallsFromTiledMapCreator {
         }
     }
 
+    fun createTriggers(world: World, PPM: Float, map: TiledMap) {
+        for (i in map.layers["triggers"].objects.getByType(RectangleMapObject::class.java)) {
+            val rect = i.rectangle
+
+            world.body {
+                type = BodyDef.BodyType.StaticBody
+                position.set(
+                        (rect.getX() + rect.getWidth() / 2) / PPM,
+                        (rect.getY() + rect.getHeight() / 2) / PPM
+                )
+                box(width = rect.getWidth() / PPM, height = rect.getHeight() / PPM) {
+
+                }
+                userData = Box2dBodyData().apply {
+                    collision = true
+                    tag = "trigger"
+                    data = i.name as Object
+                }
+            }
+        }
+    }
+
 }
