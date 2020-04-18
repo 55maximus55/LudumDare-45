@@ -26,6 +26,8 @@ class Player {
         val e = Entity()
         e.apply {
             add(SpriteComponent(Sprite(Texture("sprites/player.png"))))
+            add(PlayerAnimationTimer(0.4f))
+
             add(Box2dBodyComponent(world.body {
                 type = BodyDef.BodyType.DynamicBody
                 this.position.set(position.cpy())
