@@ -40,6 +40,8 @@ class GameScreen : LibScreen() {
     lateinit var lightWorld: World
     lateinit var rayHandler: RayHandler
 
+    var isNewGame = true
+
     val hud = table {
         setFillParent(true)
         top()
@@ -53,57 +55,59 @@ class GameScreen : LibScreen() {
     }
 
     override fun show() {
-        world = World(Vector2(), true).apply {
-            setContactListener(Box2dContactListener())
-        }
-        lightWorld = World(Vector2(), true)
-        rayHandler = RayHandler(lightWorld).apply {
-            setAmbientLight(0.2f)
-            setBlur(true)
-            setBlurNum(1)
-            setCulling(true)
-            setGammaCorrection(true)
-        }
+        if (isNewGame) {
+            world = World(Vector2(), true).apply {
+                setContactListener(Box2dContactListener())
+            }
+            lightWorld = World(Vector2(), true)
+            rayHandler = RayHandler(lightWorld).apply {
+                setAmbientLight(0.2f)
+                setBlur(true)
+                setBlurNum(1)
+                setCulling(true)
+                setGammaCorrection(true)
+            }
 
-        ecsEngine.apply {
-            addSystem(Box2dTopdownPlayerMovementSystem())
-            addSystem(Box2dWorldStepSystem(world, 10, 10))
+            ecsEngine.apply {
+                addSystem(Box2dTopdownPlayerMovementSystem())
+                addSystem(Box2dWorldStepSystem(world, 10, 10))
 
-            addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))
-            addSystem(RayHandlerUpdateLightPositionsSystem())
-            addSystem(RayHandlerPlayerFlashLightSystem())
+                addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))
+                addSystem(RayHandlerUpdateLightPositionsSystem())
+                addSystem(RayHandlerPlayerFlashLightSystem())
 
-            addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
-            addSystem(UpdateCameraPositionSystem(camera, PPM))
-            addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
-        }
+                addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
+                addSystem(UpdateCameraPositionSystem(camera, PPM))
+                addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
+            }
 
-        ecsEngine.apply {
-            val playerStartPos = ObjectFromTiledMapGetter().getPosition(map, "player")
-            addEntity(Player().create(playerStartPos.cpy().scl(1f / PPM), world, lightWorld, rayHandler, PPM))
-            camera.position.apply {
-                x = playerStartPos.x
-                y = playerStartPos.y
+            ecsEngine.apply {
+                val playerStartPos = ObjectFromTiledMapGetter().getPosition(map, "player")
+                addEntity(Player().create(playerStartPos.cpy().scl(1f / PPM), world, lightWorld, rayHandler, PPM))
+                camera.position.apply {
+                    x = playerStartPos.x
+                    y = playerStartPos.y
+                }
+            }
+            Box2dWallsFromTiledMapCreator().apply {
+                createWalls(world, PPM, map, "walls")
+                createWalls(lightWorld, 1f, map, "lightwalls")
+                createTriggers(world, PPM, map)
             }
         }
-        Box2dWallsFromTiledMapCreator().apply {
-            createWalls(world, PPM, map, "walls")
-            createWalls(lightWorld, 1f, map, "lightwalls")
-            createTriggers(world, PPM, map)
-        }
-
         Main.context.inject<Stage>().addActor(hud)
     }
 
     override fun hide() {
-        for (i in ecsEngine.systems) {
-            ecsEngine.removeSystem(i)
+        if (isNewGame) {
+            for (i in ecsEngine.systems) {
+                ecsEngine.removeSystem(i)
+            }
+
+            world.dispose()
+            lightWorld.dispose()
+            rayHandler.dispose()
         }
-
-        world.dispose()
-        lightWorld.dispose()
-        rayHandler.dispose()
-
         hud.remove()
     }
 

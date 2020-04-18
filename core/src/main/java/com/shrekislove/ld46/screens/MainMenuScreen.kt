@@ -14,6 +14,7 @@ class MainMenuScreen : LibScreen() {
 
         textButton(text = "New Game").apply {
             onChange {
+                Main.context.inject<GameScreen>().isNewGame = true
                 Main.instance.setScreen<GameScreen>()
             }
         }
