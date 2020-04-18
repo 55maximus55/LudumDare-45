@@ -1,12 +1,12 @@
-package com.shrekislove.ld46.ecs.systems
+package com.shrekislove.ld46.ecs.systems.box2d
 
 import com.badlogic.ashley.core.*
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
-import com.shrekislove.ld46.ecs.components.Box2dBodyComponent
-import com.shrekislove.ld46.ecs.components.Box2dTopdownPlayerControllerComponent
+import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
+import com.shrekislove.ld46.ecs.components.box2d.Box2dTopdownPlayerControllerComponent
 import com.shrekislove.ld46.ecs.components.SpeedComponent
 
 class Box2dTopdownPlayerMovementSystem : EntitySystem() {

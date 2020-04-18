@@ -1,9 +1,9 @@
-package com.shrekislove.ld46.ecs.systems
+package com.shrekislove.ld46.ecs.systems.box2d
 
 import com.badlogic.ashley.core.*
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.physics.box2d.World
-import com.shrekislove.ld46.ecs.components.Box2dBodyComponent
+import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
 import com.shrekislove.ld46.ecs.components.SpriteComponent
 
 class Box2dTopdownUpdateSpritePositionsSystem(val world: World, val PPM: Float) : EntitySystem() {

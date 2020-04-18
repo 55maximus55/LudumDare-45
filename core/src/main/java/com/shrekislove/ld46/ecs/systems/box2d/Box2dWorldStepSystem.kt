@@ -1,4 +1,4 @@
-package com.shrekislove.ld46.ecs.systems
+package com.shrekislove.ld46.ecs.systems.box2d
 
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.physics.box2d.World

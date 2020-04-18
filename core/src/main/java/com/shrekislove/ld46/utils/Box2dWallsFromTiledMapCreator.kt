@@ -8,8 +8,8 @@ import ktx.box2d.body
 
 class Box2dWallsFromTiledMapCreator {
 
-    fun createWalls(world: World, PPM: Float, map: TiledMap) {
-        for (i in map.layers["walls"].objects.getByType(RectangleMapObject::class.java)) {
+    fun createWalls(world: World, PPM: Float, map: TiledMap, layerName: String) {
+        for (i in map.layers[layerName].objects.getByType(RectangleMapObject::class.java)) {
             val rect = i.rectangle
 
             world.body {
@@ -21,7 +21,10 @@ class Box2dWallsFromTiledMapCreator {
                 box(width = rect.getWidth() / PPM, height = rect.getHeight() / PPM) {
 
                 }
-                userData = "wall"
+                userData = Box2dBodyData().apply {
+                    collision = true
+                    tag = "wall"
+                }
             }
         }
     }
