@@ -31,7 +31,7 @@ class Player {
             add(Box2dBodyComponent(world.body {
                 type = BodyDef.BodyType.DynamicBody
                 this.position.set(position.cpy())
-                circle(radius = 0.4f) {}
+                circle(radius = 0.5f) {}
                 userData = Box2dBodyData().apply {
                     collision = true
                     tag = "player"
@@ -45,7 +45,7 @@ class Player {
             add(RayHandlerBodyComponent(lightWorld.body {
                 type = BodyDef.BodyType.DynamicBody
                 this.position.set(position.cpy().scl(PPM))
-                circle(radius = 0.4f * PPM) {}
+                circle(radius = 0.5f * PPM) {}
             }))
             add(RayHandlerLightComponent(PointLight(rayHandler, 100, Color.BLACK, 1f * PPM, 32f, 32f)))
             add(RayHandlerFlashLightComponent(ConeLight(rayHandler, 100, Color.BLACK, 7f * PPM, 0f, 0f, 0f, 30f)))
