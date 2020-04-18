@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.kotcrab.vis.ui.widget.VisLabel
 import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.systems.*
 import com.shrekislove.ld46.ecs.systems.box2d.*
@@ -41,6 +42,10 @@ class GameScreen : LibScreen() {
     lateinit var lightWorld: World
     lateinit var rayHandler: RayHandler
 
+    lateinit var task: VisLabel
+    lateinit var moneyLabel: VisLabel
+    lateinit var hungryLabel: VisLabel
+
     var isNewGame = true
 
     val hud = table {
@@ -48,17 +53,18 @@ class GameScreen : LibScreen() {
         top()
         left()
 
-        textButton(text = "Main menu").apply {
-            onChange {
-                Main.instance.setScreen<MainMenuScreen>()
-            }
-        }
+        label("Task: ")
+        task = label(text = "")
+        row()
+        moneyLabel = label(text = "")
+        row()
+        hungryLabel = label(text = "")
     }
 
     override fun show() {
         if (isNewGame) {
             world = World(Vector2(), true).apply {
-                setContactListener(Box2dContactListener(map, PPM))
+                setContactListener(Box2dContactListener(map, PPM, task))
             }
             lightWorld = World(Vector2(), true)
             rayHandler = RayHandler(lightWorld).apply {
@@ -88,6 +94,8 @@ class GameScreen : LibScreen() {
                 addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
                 addSystem(UpdateCameraPositionSystem(camera, PPM))
                 addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
+
+                addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
             }
             // entities
             ecsEngine.apply {
@@ -117,6 +125,9 @@ class GameScreen : LibScreen() {
                 createWalls(lightWorld, 1f, map, "lightwalls")
                 createTriggers(world, PPM, map)
             }
+
+            task.setText("You're hungry, go to check the fridge")
+            com.shrekislove.ld46.clear()
         }
         Main.context.inject<Stage>().addActor(hud)
     }

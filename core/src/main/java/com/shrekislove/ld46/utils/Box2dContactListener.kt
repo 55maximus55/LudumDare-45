@@ -6,10 +6,15 @@ import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
+import com.kotcrab.vis.ui.widget.VisLabel
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
+import com.shrekislove.ld46.fridgeChecked
+import com.shrekislove.ld46.hungry
+import com.shrekislove.ld46.money
+import com.shrekislove.ld46.shelfChecked
 import ktx.math.div
 
-class Box2dContactListener(val map: TiledMap, val PPM: Float) : ContactListener {
+class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel) : ContactListener {
 
     override fun beginContact(contact: Contact?) {
         val bodyA = contact!!.fixtureA.body
@@ -33,6 +38,20 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float) : ContactListener 
                 when {
                     triggerName.contains("wall_hidden") -> {
                         map.layers[triggerName].opacity = 0.3f
+                    }
+                    triggerName.contains("check_fridge") -> {
+                        task.setText("Fridge is empty, go to check shelf to find some money")
+                        fridgeChecked = true
+                    }
+                    triggerName.contains("check_shelf") -> {
+                        if (fridgeChecked) {
+                            task.setText("Shelf is empty, you haven't get payment for 3 days\n" +
+                                    "You have no money\n" +
+                                    "Try to get some food")
+                            shelfChecked = true
+                            money = 0
+                            hungry = 100
+                        }
                     }
                 }
             }

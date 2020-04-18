@@ -13,6 +13,8 @@ class PlayerSpriteUpdateSystem : EntitySystem() {
     private val spriteMapper = ComponentMapper.getFor(SpriteComponent::class.java)
     private val b2dBodyMapper = ComponentMapper.getFor(Box2dBodyComponent::class.java)
 
+    var isRight = false
+
     override fun addedToEngine(engine: Engine?) {
         if (engine != null) {
             entities = engine.getEntitiesFor(Family.all(SpriteComponent::class.java, Box2dBodyComponent::class.java, PlayerAnimationTimer::class.java).get())
@@ -41,8 +43,10 @@ class PlayerSpriteUpdateSystem : EntitySystem() {
                         54
                     }
                 }
+                if (body.linearVelocity.len() > 0.5f)
+                    isRight = body.linearVelocity.angle() in 90f..270f
 
-                setRegion(s, 0, 27, 33)
+                setRegion(s, if (isRight) 0 else 33, 27, 33)
                 setSize(27f, 33f)
             }
         }
