@@ -5,9 +5,11 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
+import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTopdownPlayerControllerComponent
 import com.shrekislove.ld46.ecs.components.SpeedComponent
+import com.shrekislove.ld46.entities.PizdecToEnemy
 
 class Box2dTopdownPlayerMovementSystem : EntitySystem() {
 
@@ -26,6 +28,7 @@ class Box2dTopdownPlayerMovementSystem : EntitySystem() {
         for (i in entities) {
             val body = b2dBodyMapper[i].body
             val speed = speedMapper[i].speed
+            pcMapper[i].timer -= deltaTime
 
             val control = Vector2()
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -40,7 +43,13 @@ class Box2dTopdownPlayerMovementSystem : EntitySystem() {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 control.x += 1f
             }
-            control.clamp(0f, 1f).scl(speed)
+            control.clamp(0f, 1f)
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && control.len() > 0.1f) {
+                Main.instance.shownScreen.ecsEngine.addEntity(PizdecToEnemy().create(body.position, control.angle()))
+            }
+
+            control.scl(speed)
 
             body.linearVelocity = control
         }

@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.shrekislove.ld46.Main
 import com.shrekislove.ld46.ecs.components.SpriteComponent
+import com.shrekislove.ld46.pyat_pizdec
+import com.shrekislove.ld46.pyat_robbed
 import ktx.app.use
 
 class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world: World, val lightWorld: World, val rayHandler: RayHandler, val PPM: Float) : EntitySystem() {
@@ -57,6 +59,9 @@ class RenderSystem(val camera: OrthographicCamera, val map: TiledMap, val world:
                 batch.use {
                     renderTileLayer(map.layers["wall_hidden1"] as TiledMapTileLayer?)
                     renderTileLayer(map.layers["wall_hidden3"] as TiledMapTileLayer?)
+                    if (pyat_robbed) {
+                        renderTileLayer(map.layers["wall_aaa"] as TiledMapTileLayer?)
+                    }
                 }
             }
         }

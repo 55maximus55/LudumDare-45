@@ -98,6 +98,7 @@ class GameScreen : LibScreen() {
                 addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
                 addSystem(CheckBomjFightSystem())
                 addSystem(PizdecSystem(world, PPM, map))
+                addSystem(PizdimVorogivSystem(PPM))
             }
             // entities
             ecsEngine.apply {

@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
-import com.shrekislove.ld46.ecs.components.CameraTargetComponent
-import com.shrekislove.ld46.ecs.components.PlayerAnimationTimer
-import com.shrekislove.ld46.ecs.components.SpeedComponent
-import com.shrekislove.ld46.ecs.components.SpriteComponent
+import com.shrekislove.ld46.ecs.components.*
 import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTopdownPlayerControllerComponent
@@ -52,6 +49,7 @@ class Player {
 //            add(RayHandlerFlashLightComponent(ConeLight(rayHandler, 100, Color.BLACK, 7f * PPM, 0f, 0f, 0f, 30f)))
 
             add(CameraTargetComponent())
+            add(PlayerAttackComponent())
         }
         return e
     }
