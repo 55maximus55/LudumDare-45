@@ -31,22 +31,32 @@ class Box2dTopdownPlayerMovementSystem : EntitySystem() {
             pcMapper[i].timer -= deltaTime
 
             val control = Vector2()
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                control.y += 1f
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                control.x -= 1f
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                control.y -= 1f
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                control.x += 1f
+            if (pcMapper[i].timer < 0f) {
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    control.y += 1f
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    control.x -= 1f
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    control.y -= 1f
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    control.x += 1f
+                }
+            } else {
+                control.set(1f, 0f).setAngle(pcMapper[i].angle)
             }
             control.clamp(0f, 1f)
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && control.len() > 0.1f) {
-                Main.instance.shownScreen.ecsEngine.addEntity(PizdecToEnemy().create(body.position, control.angle()))
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && control.len() > 0.1f && pcMapper[i].timer < 0f) {
+                pcMapper[i].timer = 0.6f
+                pcMapper[i].shot = true
+                pcMapper[i].angle = control.angle()
+            }
+            if (pcMapper[i].shot && pcMapper[i].timer < 0.2f) {
+                Main.instance.shownScreen.ecsEngine.addEntity(PizdecToEnemy().create(body.position.cpy().add(Vector2(3f, 0f).setAngle(control.angle())), control.angle()))
+                pcMapper[i].shot = false
             }
 
             control.scl(speed)

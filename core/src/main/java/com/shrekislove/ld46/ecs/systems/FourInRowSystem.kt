@@ -28,6 +28,8 @@ class FourInRowSystem : EntitySystem() {
     }
     var turn = true
 
+    val sound = Gdx.audio.newSound(Gdx.files.internal("music/b.wav"))
+
     var win = false
     var lose = false
 
@@ -75,10 +77,9 @@ class FourInRowSystem : EntitySystem() {
                     draw(texture, -texture.width.toFloat() / 2, -texture.height.toFloat() / 2)
                 }
             }
-            // TODO: Рендер
             shapeRenderer.apply {
                 begin(ShapeRenderer.ShapeType.Line)
-                apply { // TODO: remove this
+                apply { // TODO: remove this TODO
                     color = Color.BLUE
                     rect(-56f + stolb * 16f, -48f, 16f, 16f * 6)
                 }
@@ -90,6 +91,7 @@ class FourInRowSystem : EntitySystem() {
         apply {
             if (Gdx.input.justTouched() && turn || !turn) {
                 if (Gdx.input.justTouched() && turn) {
+                    sound.play()
                 } else {
                     val a = ArrayList<Int>()
                     for (i in 0 until 7) {

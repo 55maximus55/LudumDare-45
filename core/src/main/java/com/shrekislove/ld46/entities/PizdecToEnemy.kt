@@ -15,7 +15,7 @@ class PizdecToEnemy {
                 angle = dir
                 pos = position.cpy()
             })
-            add(SpriteComponent(Sprite(Texture("sprites/rock.png"))))
+            add(SpriteComponent(Sprite(Texture("sprites/splash.png"))))
         }
     }
 

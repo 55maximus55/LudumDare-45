@@ -15,4 +15,5 @@ fun clear() {
     hungry = 101
     bomj = false
     pyat_robbed = false
+    pyat_pizdec = false
 }

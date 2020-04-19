@@ -62,109 +62,109 @@ class GameScreen : LibScreen() {
     }
 
     override fun show() {
-        if (isNewGame) {
-            world = World(Vector2(), true).apply {
-                setContactListener(Box2dContactListener(map, PPM, task))
-            }
-            lightWorld = World(Vector2(), true)
-            rayHandler = RayHandler(lightWorld).apply {
-                setAmbientLight(0.4f)
-                setBlur(true)
-                setBlurNum(1)
-                setCulling(true)
-                setGammaCorrection(true)
-            }
-
-            // systems
-            ecsEngine.apply {
-                addSystem(Box2dTopdownPlayerMovementSystem())
-                addSystem(Box2dFootersControlSystem())
-                addSystem(FooterUpdateSpriteSystem())
-                addSystem(PlayerSpriteUpdateSystem())
-                addSystem(Box2dTeleportSystem())
-
-                addSystem(RayHandlerPlayerFlashLightSystem())
-                addSystem(RayHandlerCarFlashLightUpdateSystem())
-
-                addSystem(Box2dWorldStepSystem(world, 10, 10))
-
-                addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))
-                addSystem(RayHandlerUpdateLightPositionsSystem())
-
-                addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
-                addSystem(UpdateCameraPositionSystem(camera, PPM))
-                addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
-
-                addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
-                addSystem(CheckBomjFightSystem())
-                addSystem(PizdecSystem(world, PPM, map))
-                addSystem(PizdimVorogivSystem(PPM))
-            }
-            // entities
-            ecsEngine.apply {
-                val playerStartPos = ObjectFromTiledMapGetter().getPosition(map, "player")
-                addEntity(Player().create(playerStartPos.cpy().scl(1f / PPM), world, lightWorld, rayHandler, PPM))
-                camera.position.apply {
-                    x = playerStartPos.x
-                    y = playerStartPos.y
-                }
-
-                val footer1Positions = ObjectFromTiledMapGetter().getPositions(map, "footer1").apply {
-                    for (i in iterator()) {
-                        i.scl(1f / PPM)
-                    }
-                }
-                addEntity(Footer().create(footer1Positions, world, lightWorld, rayHandler, PPM))
-
-                val car1Positions = ObjectFromTiledMapGetter().getPositions(map, "car1").apply {
-                    for (i in iterator()) {
-                        i.scl(1f / PPM)
-                    }
-                }
-                addEntity(Car().create(car1Positions, world, lightWorld, rayHandler, PPM))
-                val car2Positions = ObjectFromTiledMapGetter().getPositions(map, "car2").apply {
-                    for (i in iterator()) {
-                        i.scl(1f / PPM)
-                    }
-                }
-                addEntity(Car().create(car2Positions, world, lightWorld, rayHandler, PPM))
-                val car3Positions = ObjectFromTiledMapGetter().getPositions(map, "car3").apply {
-                    for (i in iterator()) {
-                        i.scl(1f / PPM)
-                    }
-                }
-                addEntity(Car().create(car3Positions, world, lightWorld, rayHandler, PPM))
-                val car4Positions = ObjectFromTiledMapGetter().getPositions(map, "car4").apply {
-                    for (i in iterator()) {
-                        i.scl(1f / PPM)
-                    }
-                }
-                addEntity(Car().create(car4Positions, world, lightWorld, rayHandler, PPM))
-            }
-            Box2dWallsFromTiledMapCreator().apply {
-                createWalls(world, PPM, map, "walls")
-                createWalls(lightWorld, 1f, map, "lightwalls")
-                createTriggers(world, PPM, map)
-            }
-            LightSpawner().createLights(map, rayHandler, PPM)
-
-            task.setText("You're hungry, go to check the fridge")
-            com.shrekislove.ld46.clear()
+        world = World(Vector2(), true).apply {
+            setContactListener(Box2dContactListener(map, PPM, task))
         }
+        lightWorld = World(Vector2(), true)
+        rayHandler = RayHandler(lightWorld).apply {
+            setAmbientLight(0.4f)
+            setBlur(true)
+            setBlurNum(1)
+            setCulling(true)
+            setGammaCorrection(true)
+        }
+
+        // systems
+        ecsEngine.apply {
+            addSystem(Box2dTopdownPlayerMovementSystem())
+            addSystem(Box2dFootersControlSystem())
+            addSystem(FooterUpdateSpriteSystem())
+            addSystem(PlayerSpriteUpdateSystem())
+            addSystem(Box2dTeleportSystem())
+
+            addSystem(RayHandlerPlayerFlashLightSystem())
+            addSystem(RayHandlerCarFlashLightUpdateSystem())
+
+            addSystem(Box2dWorldStepSystem(world, 10, 10))
+
+            addSystem(RayHandlerUpdateBodyPositionsSystem(PPM))
+            addSystem(RayHandlerUpdateLightPositionsSystem())
+
+            addSystem(Box2dTopdownUpdateSpritePositionsSystem(world, PPM))
+            addSystem(UpdateCameraPositionSystem(camera, PPM))
+            addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
+
+            addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
+            addSystem(CheckBomjFightSystem())
+            addSystem(PizdecSystem(world, PPM, map))
+            addSystem(PizdimVorogivSystem(PPM))
+
+            addSystem(UpdateMusicSystem())
+        }
+        // entities
+        ecsEngine.apply {
+            val playerStartPos = ObjectFromTiledMapGetter().getPosition(map, "player")
+            addEntity(Player().create(playerStartPos.cpy().scl(1f / PPM), world, lightWorld, rayHandler, PPM))
+            camera.position.apply {
+                x = playerStartPos.x
+                y = playerStartPos.y
+            }
+
+            val footer1Positions = ObjectFromTiledMapGetter().getPositions(map, "footer1").apply {
+                for (i in iterator()) {
+                    i.scl(1f / PPM)
+                }
+            }
+            addEntity(Footer().create(footer1Positions, world, lightWorld, rayHandler, PPM))
+
+            val car1Positions = ObjectFromTiledMapGetter().getPositions(map, "car1").apply {
+                for (i in iterator()) {
+                    i.scl(1f / PPM)
+                }
+            }
+            addEntity(Car().create(car1Positions, world, lightWorld, rayHandler, PPM))
+            val car2Positions = ObjectFromTiledMapGetter().getPositions(map, "car2").apply {
+                for (i in iterator()) {
+                    i.scl(1f / PPM)
+                }
+            }
+            addEntity(Car().create(car2Positions, world, lightWorld, rayHandler, PPM))
+            val car3Positions = ObjectFromTiledMapGetter().getPositions(map, "car3").apply {
+                for (i in iterator()) {
+                    i.scl(1f / PPM)
+                }
+            }
+            addEntity(Car().create(car3Positions, world, lightWorld, rayHandler, PPM))
+            val car4Positions = ObjectFromTiledMapGetter().getPositions(map, "car4").apply {
+                for (i in iterator()) {
+                    i.scl(1f / PPM)
+                }
+            }
+            addEntity(Car().create(car4Positions, world, lightWorld, rayHandler, PPM))
+        }
+        Box2dWallsFromTiledMapCreator().apply {
+            createWalls(world, PPM, map, "walls")
+            createWalls(lightWorld, 1f, map, "lightwalls")
+            createTriggers(world, PPM, map)
+        }
+        LightSpawner().createLights(map, rayHandler, PPM)
+
+        task.setText("You're hungry, go to check the fridge")
+        com.shrekislove.ld46.clear()
         Main.context.inject<Stage>().addActor(hud)
     }
 
     override fun hide() {
-        if (isNewGame) {
-            for (i in ecsEngine.systems) {
-                ecsEngine.removeSystem(i)
-            }
-
-            world.dispose()
-            lightWorld.dispose()
-            rayHandler.dispose()
+        for (i in ecsEngine.systems) {
+            ecsEngine.removeSystem(i)
         }
+
+        world.dispose()
+        lightWorld.dispose()
+        rayHandler.dispose()
         hud.remove()
+
+        UpdateMusicSystem.stop()
     }
 
     override fun resize(width: Int, height: Int) {

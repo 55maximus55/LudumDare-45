@@ -34,7 +34,7 @@ class PizdimVorogivSystem(val PPM: Float) : EntitySystem() {
                 }
 
                 sprite.apply {
-                    setPosition(suka.pos.x * PPM, suka.pos.y * PPM)
+                    setPosition(suka.pos.x * PPM - sprite.width / 2, suka.pos.y * PPM - sprite.height / 2)
                     val s = when(suka.timer) {
                         in 0.2f..0.3f -> 0
                         in 0.1f..0.2f -> 1
