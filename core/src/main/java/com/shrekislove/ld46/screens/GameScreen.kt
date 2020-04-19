@@ -33,9 +33,9 @@ class GameScreen : LibScreen() {
         position.x = 0f
         position.y = 0f
     }
-    val fov = 256f
+    val fov = 512f
 
-    val map = TmxMapLoader().load("maps/home.tmx")
+    val map = TmxMapLoader().load("maps/OLOLO.tmx")
     val PPM = 32f
 
     lateinit var world: World
@@ -119,6 +119,24 @@ class GameScreen : LibScreen() {
                     }
                 }
                 addEntity(Car().create(car1Positions, world, lightWorld, rayHandler, PPM))
+                val car2Positions = ObjectFromTiledMapGetter().getPositions(map, "car2").apply {
+                    for (i in iterator()) {
+                        i.scl(1f / PPM)
+                    }
+                }
+                addEntity(Car().create(car2Positions, world, lightWorld, rayHandler, PPM))
+                val car3Positions = ObjectFromTiledMapGetter().getPositions(map, "car3").apply {
+                    for (i in iterator()) {
+                        i.scl(1f / PPM)
+                    }
+                }
+                addEntity(Car().create(car3Positions, world, lightWorld, rayHandler, PPM))
+                val car4Positions = ObjectFromTiledMapGetter().getPositions(map, "car4").apply {
+                    for (i in iterator()) {
+                        i.scl(1f / PPM)
+                    }
+                }
+                addEntity(Car().create(car4Positions, world, lightWorld, rayHandler, PPM))
             }
             Box2dWallsFromTiledMapCreator().apply {
                 createWalls(world, PPM, map, "walls")
