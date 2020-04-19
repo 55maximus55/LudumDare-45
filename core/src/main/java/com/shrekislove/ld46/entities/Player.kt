@@ -1,6 +1,5 @@
 package com.shrekislove.ld46.entities
 
-import box2dLight.ConeLight
 import box2dLight.PointLight
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Entity
@@ -10,13 +9,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
-import com.shrekislove.ld46.ecs.components.*
+import com.shrekislove.ld46.ecs.components.CameraTargetComponent
+import com.shrekislove.ld46.ecs.components.PlayerAnimationTimer
+import com.shrekislove.ld46.ecs.components.SpeedComponent
+import com.shrekislove.ld46.ecs.components.SpriteComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dBodyComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTopdownPlayerControllerComponent
-import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerLightComponent
 import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerBodyComponent
-import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerFlashLightComponent
+import com.shrekislove.ld46.ecs.components.rayhandler.RayHandlerLightComponent
 import com.shrekislove.ld46.utils.Box2dBodyData
 import ktx.box2d.body
 
