@@ -96,6 +96,7 @@ class GameScreen : LibScreen() {
                 addSystem(RenderSystem(camera, map, world, lightWorld, rayHandler, PPM))
 
                 addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
+                addSystem(CheckBomjFightSystem())
             }
             // entities
             ecsEngine.apply {
