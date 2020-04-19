@@ -7,11 +7,9 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.kotcrab.vis.ui.widget.VisLabel
+import com.shrekislove.ld46.*
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
-import com.shrekislove.ld46.fridgeChecked
-import com.shrekislove.ld46.hungry
-import com.shrekislove.ld46.money
-import com.shrekislove.ld46.shelfChecked
+import com.shrekislove.ld46.screens.BomjFightScreen
 import ktx.math.div
 
 class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel) : ContactListener {
@@ -78,6 +76,12 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                 }
 
                 when {
+                    triggerName.contains("teleport") -> {
+                        entityPlayer.getComponent(Box2dTeleportComponent::class.java).apply {
+                            isTeleport = true
+                            newPosition = ObjectFromTiledMapGetter().getPosition(map, triggerName).div(PPM)
+                        }
+                    }
                     triggerName.contains("wall_hidden") -> {
                         map.layers[triggerName].opacity = 1f
                     }
@@ -106,11 +110,8 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                 }
 
                 when {
-                    triggerName.contains("teleport") -> {
-                        entityPlayer.getComponent(Box2dTeleportComponent::class.java).apply {
-                            isTeleport = true
-                            newPosition = ObjectFromTiledMapGetter().getPosition(map, triggerName).div(PPM)
-                        }
+                    triggerName.contains("bomj_fight") -> {
+                        Main.instance.setScreen<BomjFightScreen>()
                     }
                 }
             }
