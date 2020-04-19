@@ -37,6 +37,9 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                     triggerName.contains("teleport") -> {
                         entityPlayer.getComponent(Box2dTeleportComponent::class.java).apply {
                             isTeleport = true
+                            if (triggerName == "teleport1" && !shelfChecked) {
+                                isTeleport = false
+                            }
                             newPosition = ObjectFromTiledMapGetter().getPosition(map, triggerName).div(PPM)
                         }
                     }
@@ -60,9 +63,12 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                         }
                     }
                     triggerName.contains("pyat_steal") -> {
-                        task.setText("You stole the bread, you are dangerous criminal\n" +
-                                "You are wanted")
-                        pyat_robbed = true
+                        if (!pyat_robbed) {
+                            task.setText("You stole the bread, you are dangerous criminal\n" +
+                                    "You are wanted")
+                            pyat_robbed = true
+                            pyat_pizdec = true
+                        }
                     }
                 }
             }
