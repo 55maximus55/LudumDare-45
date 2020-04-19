@@ -1,5 +1,6 @@
 package com.shrekislove.ld46.utils
 
+import box2dLight.ConeLight
 import box2dLight.PointLight
 import box2dLight.RayHandler
 import com.badlogic.gdx.graphics.Color
@@ -16,6 +17,13 @@ class LightSpawner {
             val dist = i.name.toFloat()
 
             PointLight(rayHandler, 100, Color.BLACK, dist * PPM, pos.x, pos.y)
+        }
+        for (i in map.layers["light_cone"].objects.getByType(RectangleMapObject::class.java)) {
+            val rect = i.rectangle
+            val pos = Vector2(rect.getX(), rect.getY())
+            val dist = i.name.toFloat()
+
+            ConeLight(rayHandler, 100, Color.BLACK, dist * PPM, pos.x, pos.y, -90f, 20f)
         }
     }
 
