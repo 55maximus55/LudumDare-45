@@ -96,7 +96,7 @@ class FourInRowSystem : EntitySystem() {
                         if (board[i][5] == 0)
                             a.add(i)
                     }
-                    a[MathUtils.random(0, a.size - 1)]
+                    stolb = a[MathUtils.random(0, a.size - 1)]
                 }
                 var wst = false
                 if (stolb < 7) {
