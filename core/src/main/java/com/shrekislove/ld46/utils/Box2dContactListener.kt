@@ -44,8 +44,10 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                         map.layers[triggerName].opacity = 0.3f
                     }
                     triggerName.contains("check_fridge") -> {
-                        task.setText("Fridge is empty, go to check shelf to find some money")
-                        fridgeChecked = true
+                        if (!fridgeChecked) {
+                            task.setText("Fridge is empty, go to check shelf to find some money")
+                            fridgeChecked = true
+                        }
                     }
                     triggerName.contains("check_shelf") -> {
                         if (fridgeChecked) {
