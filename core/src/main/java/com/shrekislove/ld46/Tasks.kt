@@ -5,6 +5,7 @@ var shelfChecked = false
 var money = -1
 var hungry = 100
 var bomj = false
+var pyat_robbed = false
 
 fun clear() {
     fridgeChecked = false
@@ -12,4 +13,5 @@ fun clear() {
     money = -1
     hungry = 101
     bomj = false
+    pyat_robbed = false
 }

@@ -59,6 +59,11 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                             hungry = 100
                         }
                     }
+                    triggerName.contains("pyat_steal") -> {
+                        task.setText("You stole the bread, you are dangerous criminal\n" +
+                                "You are wanted")
+                        pyat_robbed = true
+                    }
                 }
             }
         }
