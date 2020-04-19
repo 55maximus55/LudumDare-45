@@ -37,7 +37,7 @@ class Car {
                     entity = e
                 }
             }))
-            add(SpeedComponent(12f))
+            add(SpeedComponent(9f))
 
             add(RayHandlerBodyComponent(lightWorld.body {
                 type = BodyDef.BodyType.DynamicBody
