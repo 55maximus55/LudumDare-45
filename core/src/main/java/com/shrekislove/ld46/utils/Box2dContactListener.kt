@@ -34,6 +34,12 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                 }
 
                 when {
+                    triggerName.contains("teleport") -> {
+                        entityPlayer.getComponent(Box2dTeleportComponent::class.java).apply {
+                            isTeleport = true
+                            newPosition = ObjectFromTiledMapGetter().getPosition(map, triggerName).div(PPM)
+                        }
+                    }
                     triggerName.contains("wall_hidden") -> {
                         map.layers[triggerName].opacity = 0.3f
                     }
@@ -76,12 +82,6 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                 }
 
                 when {
-                    triggerName.contains("teleport") -> {
-                        entityPlayer.getComponent(Box2dTeleportComponent::class.java).apply {
-                            isTeleport = true
-                            newPosition = ObjectFromTiledMapGetter().getPosition(map, triggerName).div(PPM)
-                        }
-                    }
                     triggerName.contains("wall_hidden") -> {
                         map.layers[triggerName].opacity = 1f
                     }
@@ -111,7 +111,7 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
 
                 when {
                     triggerName.contains("bomj_fight") -> {
-                        Main.instance.setScreen<BomjFightScreen>()
+                        bomj = true
                     }
                 }
             }
