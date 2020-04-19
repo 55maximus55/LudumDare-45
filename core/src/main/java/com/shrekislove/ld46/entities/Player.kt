@@ -48,7 +48,7 @@ class Player {
                 circle(radius = 0.5f * PPM) {}
             }))
             add(RayHandlerLightComponent(PointLight(rayHandler, 100, Color.BLACK, 1f * PPM, 32f, 32f)))
-            add(RayHandlerFlashLightComponent(ConeLight(rayHandler, 100, Color.BLACK, 7f * PPM, 0f, 0f, 0f, 30f)))
+//            add(RayHandlerFlashLightComponent(ConeLight(rayHandler, 100, Color.BLACK, 7f * PPM, 0f, 0f, 0f, 30f)))
 
             add(CameraTargetComponent())
         }
