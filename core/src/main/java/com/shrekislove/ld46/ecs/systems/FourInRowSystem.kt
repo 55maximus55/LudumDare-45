@@ -3,12 +3,21 @@ package com.shrekislove.ld46.ecs.systems
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
+import com.shrekislove.ld46.Main
+import ktx.app.use
 
 class FourInRowSystem : EntitySystem() {
 
+    val camera = OrthographicCamera()
+    val texture = Texture("sprites/bomj gang.png")
+
     val shapeRenderer = ShapeRenderer()
+    val batch = Main.context.inject<Batch>()
     val board = ArrayList<ArrayList<Int>>().apply {
         for (i in 0 until 7) {
             add(ArrayList())
@@ -29,33 +38,58 @@ class FourInRowSystem : EntitySystem() {
         if (lose) {
             Gdx.app.log("4Row", "Lose")
         }
-        shapeRenderer.apply {
-            begin(ShapeRenderer.ShapeType.Filled)
-            for (i in 0 until 7) {
-                for (j in 0 until 6) {
-                    color = when (board[i][j]) {
-                        1 -> Color.YELLOW
-                        2 -> Color.RED
-                        else -> Color.BLACK
+        // render
+        val fov = if (Gdx.graphics.width.toFloat() / Gdx.graphics.height.toFloat() > 240f / 96f)
+            96f
+        else
+            240f / Gdx.graphics.width.toFloat() * Gdx.graphics.height.toFloat()
+        var stolb = (Gdx.input.x - (Gdx.graphics.width / 2 - (Gdx.graphics.height / fov * 16 * 3.5f).toInt())) / (Gdx.graphics.height / fov * 16).toInt()
+        if ((Gdx.input.x - (Gdx.graphics.width / 2 - (Gdx.graphics.height / fov * 16 * 4f).toInt())) < 0)
+            stolb = 0
+        if (stolb > 6)
+            stolb = 6
+        apply {
+            camera.apply {
+                viewportWidth = fov * Gdx.graphics.width.toFloat() / Gdx.graphics.height.toFloat()
+                viewportHeight = fov
+                update()
+            }
+            shapeRenderer.apply {
+                projectionMatrix = camera.combined
+                begin(ShapeRenderer.ShapeType.Filled)
+                for (i in 0 until 7) {
+                    for (j in 0 until 6) {
+                        color = when (board[i][j]) {
+                            1 -> Color.YELLOW
+                            2 -> Color.RED
+                            else -> Color.BLACK
+                        }
+                        rect(-56f + i * 16f, -48f + j * 16f, 16f, 16f)
                     }
-                    rect(i * 20f, j * 20f, 20f, 20f)
+                }
+                end()
+            }
+            batch.apply {
+                projectionMatrix = camera.combined
+                use {
+                    draw(texture, -texture.width.toFloat() / 2, -texture.height.toFloat() / 2)
                 }
             }
-            end()
-            begin(ShapeRenderer.ShapeType.Line)
-            color = Color.BLUE
-            for (i in 0 until 7) {
-                for (j in 0 until 6) {
-                    rect(i * 20f, j * 20f, 20f, 20f)
+            // TODO: Рендер
+            shapeRenderer.apply {
+                begin(ShapeRenderer.ShapeType.Line)
+                apply { // TODO: remove this
+                    color = Color.BLUE
+                    rect(-56f + stolb * 16f, -48f, 16f, 16f * 6)
                 }
+                end()
             }
-            end()
         }
+
+        // control and update
         apply {
             if (Gdx.input.justTouched() && turn || !turn) {
-                var stolb = 0
                 if (Gdx.input.justTouched() && turn) {
-                    stolb = Gdx.input.x / 20
                 } else {
                     val a = ArrayList<Int>()
                     for (i in 0 until 7) {
