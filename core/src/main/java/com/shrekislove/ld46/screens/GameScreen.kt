@@ -21,8 +21,8 @@ import com.shrekislove.ld46.entities.Footer
 import com.shrekislove.ld46.entities.Player
 import com.shrekislove.ld46.utils.Box2dContactListener
 import com.shrekislove.ld46.utils.Box2dWallsFromTiledMapCreator
+import com.shrekislove.ld46.utils.LightSpawner
 import com.shrekislove.ld46.utils.ObjectFromTiledMapGetter
-import ktx.actors.onChange
 import ktx.vis.table
 
 class GameScreen : LibScreen() {
@@ -145,6 +145,7 @@ class GameScreen : LibScreen() {
                 createWalls(lightWorld, 1f, map, "lightwalls")
                 createTriggers(world, PPM, map)
             }
+            LightSpawner().createLights(map, rayHandler, PPM)
 
             task.setText("You're hungry, go to check the fridge")
             com.shrekislove.ld46.clear()
