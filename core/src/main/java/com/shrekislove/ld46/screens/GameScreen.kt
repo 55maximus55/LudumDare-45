@@ -33,7 +33,7 @@ class GameScreen : LibScreen() {
         position.x = 0f
         position.y = 0f
     }
-    val fov = 128f
+    val fov = 256f
 
     val map = TmxMapLoader().load("maps/OLOLO.tmx")
     val PPM = 32f
