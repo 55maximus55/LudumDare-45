@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="250">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="251">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="512" columns="32">
   <image source="Tileset.png" width="1024" height="512"/>
  </tileset>
@@ -643,6 +643,7 @@
   <object id="237" x="800" y="1920" width="96" height="128"/>
   <object id="238" x="768" y="1920" width="32" height="112"/>
   <object id="241" x="960" y="2072" width="96" height="40"/>
+  <object id="250" x="0" y="320" width="96" height="16"/>
  </objectgroup>
  <objectgroup id="19" name="walls_aaa">
   <object id="245" x="792" y="2096" width="168" height="16"/>

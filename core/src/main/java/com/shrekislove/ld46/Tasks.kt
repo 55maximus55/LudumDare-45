@@ -6,6 +6,7 @@ var money = -1
 var hungry = 100
 var bomj = false
 var pyat_robbed = false
+var pyat_pizdec = false
 
 fun clear() {
     fridgeChecked = false

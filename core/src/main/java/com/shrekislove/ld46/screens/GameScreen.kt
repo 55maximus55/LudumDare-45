@@ -33,7 +33,7 @@ class GameScreen : LibScreen() {
         position.x = 0f
         position.y = 0f
     }
-    val fov = 512f
+    val fov = 128f
 
     val map = TmxMapLoader().load("maps/OLOLO.tmx")
     val PPM = 32f
@@ -97,6 +97,7 @@ class GameScreen : LibScreen() {
 
                 addSystem(GameHudUpdateSystem(moneyLabel, hungryLabel))
                 addSystem(CheckBomjFightSystem())
+                addSystem(PizdecSystem(world, PPM, map))
             }
             // entities
             ecsEngine.apply {
