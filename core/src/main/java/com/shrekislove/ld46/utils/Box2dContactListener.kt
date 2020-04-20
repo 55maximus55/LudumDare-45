@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.kotcrab.vis.ui.widget.VisDialog
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.shrekislove.ld46.*
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
@@ -47,7 +49,7 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                     }
                     triggerName.contains("check_fridge") -> {
                         if (!fridgeChecked) {
-                            task.setText("Fridge is empty, go to check shelf to find some money")
+                            task.setText("Fridge is empty, go to check tv to find some money")
                             fridgeChecked = true
                         }
                     }
