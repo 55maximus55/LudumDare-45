@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="64">
+ <tileset firstgid="1" source="magecity.tsx"/>
+ <objectgroup id="10" name="walls"/>
+</map>
