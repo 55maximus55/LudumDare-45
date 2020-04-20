@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Manifold
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.shrekislove.ld46.*
 import com.shrekislove.ld46.ecs.components.box2d.Box2dTeleportComponent
-import com.shrekislove.ld46.screens.BomjFightScreen
 import ktx.math.div
 
 class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel) : ContactListener {
@@ -68,6 +67,11 @@ class Box2dContactListener(val map: TiledMap, val PPM: Float, val task: VisLabel
                                     "You are wanted")
                             pyat_robbed = true
                             pyat_pizdec = true
+                        }
+                    }
+                    triggerName.contains("end") -> {
+                        if (pyat_robbed) {
+                            end = true
                         }
                     }
                 }

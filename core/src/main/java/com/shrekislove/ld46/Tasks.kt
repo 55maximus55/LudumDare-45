@@ -7,6 +7,7 @@ var hungry = 100
 var bomj = false
 var pyat_robbed = false
 var pyat_pizdec = false
+var end = false
 
 fun clear() {
     fridgeChecked = false
@@ -16,4 +17,5 @@ fun clear() {
     bomj = false
     pyat_robbed = false
     pyat_pizdec = false
+    end = false
 }

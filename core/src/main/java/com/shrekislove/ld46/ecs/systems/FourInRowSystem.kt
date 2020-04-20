@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.shrekislove.ld46.Main
+import com.shrekislove.ld46.end.BomjLoseScr
+import com.shrekislove.ld46.end.BomjWinScr
 import ktx.app.use
 
 class FourInRowSystem : EntitySystem() {
@@ -35,10 +37,10 @@ class FourInRowSystem : EntitySystem() {
 
     override fun update(deltaTime: Float) {
         if (win) {
-            Gdx.app.log("4Row", "Win")
+            Main.instance.setScreen<BomjWinScr>()
         }
         if (lose) {
-            Gdx.app.log("4Row", "Lose")
+            Main.instance.setScreen<BomjLoseScr>()
         }
         // render
         val fov = if (Gdx.graphics.width.toFloat() / Gdx.graphics.height.toFloat() > 240f / 96f)

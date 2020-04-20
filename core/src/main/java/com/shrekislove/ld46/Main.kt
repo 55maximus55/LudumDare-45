@@ -11,10 +11,10 @@ import ktx.app.KtxGame
 import ktx.async.enableKtxCoroutines
 import ktx.inject.Context
 import com.shrekislove.ld46.console.GameConsole
-import com.shrekislove.ld46.screens.BomjFightScreen
-import com.shrekislove.ld46.screens.GameScreen
-import com.shrekislove.ld46.screens.LibScreen
-import com.shrekislove.ld46.screens.MainMenuScreen
+import com.shrekislove.ld46.end.BomjLoseScr
+import com.shrekislove.ld46.end.BomjWinScr
+import com.shrekislove.ld46.end.EndScreen
+import com.shrekislove.ld46.screens.*
 
 class Main : KtxGame<LibScreen>() {
 
@@ -36,12 +36,19 @@ class Main : KtxGame<LibScreen>() {
             bindSingleton(MainMenuScreen())
             bindSingleton(GameScreen())
             bindSingleton(BomjFightScreen())
+            bindSingleton(EndScreen())
+            bindSingleton(BomjWinScr())
+            bindSingleton(BomjLoseScr())
         }
         Gdx.input.inputProcessor = context.inject<Stage>()
 
         addScreen(context.inject<MainMenuScreen>())
         addScreen(context.inject<GameScreen>())
         addScreen(context.inject<BomjFightScreen>())
+
+        addScreen(context.inject<EndScreen>())
+        addScreen(context.inject<BomjWinScr>())
+        addScreen(context.inject<BomjLoseScr>())
 
         setScreen<MainMenuScreen>()
     }
